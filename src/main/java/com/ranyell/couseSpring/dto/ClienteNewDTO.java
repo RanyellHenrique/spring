@@ -2,28 +2,53 @@ package com.ranyell.couseSpring.dto;
 
 import java.io.Serializable;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+
+import org.hibernate.validator.constraints.Length;
+
+import com.ranyell.couseSpring.services.validation.ClienteInsert;
+
+@ClienteInsert
 public class ClienteNewDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
+	@NotEmpty(message="Preenchimento obrigatório")
+	@Length(min=5, max=120, message="O tamanho deve ser entre 5 e 120 caracteres")
 	private String nome;
+
+	@NotEmpty(message="Preenchimento obrigatório")
+	@Email(message="Email inválido")
 	private String email;
-	private String cpfoucnpj;
+
+	@NotEmpty(message="Preenchimento obrigatório")
+	private String cpfOuCnpj;
+
 	private Integer tipo;
 	
+	@NotEmpty(message="Preenchimento obrigatório")
 	private String logradouro;
-	private String numero;
-	private String complemento;
-	private String bairro;
-	private String cep;
 
-	private String telefone1;
-	private String telefone2;
-	private String telefone3;
+	@NotEmpty(message="Preenchimento obrigatório")
+	private String numero;
+
+	private String complemento;
+
+	private String bairro;
+
+	@NotEmpty(message="Preenchimento obrigatório")
+	private String cep;
 	
+	@NotEmpty(message="Preenchimento obrigatório")
+	private String telefone1;
+
+	private String telefone2;
+	
+	private String telefone3;
+
 	private Integer cidadeId;
 	
 	public ClienteNewDTO() {
-		
 	}
 
 	public String getNome() {
@@ -42,12 +67,12 @@ public class ClienteNewDTO implements Serializable {
 		this.email = email;
 	}
 
-	public String getCpfoucnpj() {
-		return cpfoucnpj;
+	public String getCpfOuCnpj() {
+		return cpfOuCnpj;
 	}
 
-	public void setCpfoucnpj(String cpfoucnpj) {
-		this.cpfoucnpj = cpfoucnpj;
+	public void setCpfOuCnpj(String cpfOuCnpj) {
+		this.cpfOuCnpj = cpfOuCnpj;
 	}
 
 	public Integer getTipo() {
@@ -129,5 +154,4 @@ public class ClienteNewDTO implements Serializable {
 	public void setCidadeId(Integer cidadeId) {
 		this.cidadeId = cidadeId;
 	}
-	
 }
