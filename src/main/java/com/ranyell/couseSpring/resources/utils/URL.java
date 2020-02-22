@@ -13,6 +13,7 @@ public class URL {
 		}
 		catch(UnsupportedEncodingException e) {
 			return "";
+			
 		}
 	}
 	
