@@ -16,11 +16,14 @@ import org.springframework.stereotype.Service;
 import com.ranyell.couseSpring.domain.Cidade;
 import com.ranyell.couseSpring.domain.Cliente;
 import com.ranyell.couseSpring.domain.Endereco;
+import com.ranyell.couseSpring.domain.enums.Perfil;
 import com.ranyell.couseSpring.domain.enums.TipoCliente;
 import com.ranyell.couseSpring.dto.ClienteDTO;
 import com.ranyell.couseSpring.dto.ClienteNewDTO;
 import com.ranyell.couseSpring.repositories.ClienteRepository;
 import com.ranyell.couseSpring.repositories.EnderecoRepository;
+import com.ranyell.couseSpring.security.UserSS;
+import com.ranyell.couseSpring.services.exceptions.AuthorizationException;
 import com.ranyell.couseSpring.services.exceptions.DataIntegrityException;
 import com.ranyell.couseSpring.services.exceptions.ObjectNotFoundException;
 
@@ -37,6 +40,12 @@ public class ClienteService {
 	private BCryptPasswordEncoder pe;
 	
 	public Cliente find(Integer id) {
+		
+		UserSS user = UserService.authenticated();
+		if (user==null || !user.hasRole(Perfil.ADMIN) && !id.equals(user.getId())) {
+			throw new AuthorizationException("Acesso negado");
+		}
+		
 		Optional<Cliente> obj = repo.findById(id);
 		return obj.orElseThrow(() -> new ObjectNotFoundException(
 				"Objeto não encontrado! Id: " + id + ", tipo: " + Cliente.class.getName()));	
